@@ -1,50 +1,84 @@
 <resources>
-    <!-- Miscellaneous -->
+<!-- Dynamic Grid -->
+    <integer name="config_dynamic_grid_max_long_edge_cell_count">6</integer>
+    <integer name="config_dynamic_grid_max_short_edge_cell_count">5</integer>
+    <integer name="config_dynamic_grid_min_edge_cell_count">3</integer>
+    <!-- Out of 100, the percent of space the overview bar should try and take vertically. -->
+    <integer name="config_dynamic_grid_overview_icon_zone_percentage">20</integer>
+    <!-- Out of 100, the percent to shrink the workspace during overview mode. -->
+    <integer name="config_dynamic_grid_overview_scale_percentage">100</integer>
+
+<!-- Miscellaneous -->
     <bool name="config_largeHeap">false</bool>
+    <bool name="is_tablet">false</bool>
+    <bool name="is_large_tablet">false</bool>
     <bool name="allow_rotation">false</bool>
+    <bool name="config_largeIcons">false</bool>
 
-    <integer name="extracted_color_gradient_alpha">153</integer>
+    <!-- Max number of page indicators to show -->
+    <integer name="config_maxNumberOfPageIndicatorsToShow">21</integer>
 
-    <!-- A string pointer to the original app name string. This allows derived projects to
-     easily override the app name without providing all translations -->
-    <string name="derived_app_name" translatable="false">@string/lineageos_app_name</string>
+    <!-- App data backup and restore. To enble backup, register with an android backup service.
+         http://developer.android.com/guide/topics/data/backup.html#BackupKey -->
+    <bool name="enable_backup">false</bool>
 
-    <!-- String representing the intent for search on the apps market. To specify a query, add
-    q=<query> to the data to the intent -->
-    <string name="market_search_intent" translatable="false">market://search?c=apps</string>
+<!-- DragController -->
+    <integer name="config_flingToDeleteMinVelocity">-1500</integer>
 
-    <!-- String representing the intent to delete a package.-->
-    <string name="delete_package_intent" translatable="false">#Intent;action=android.intent.action.DELETE;launchFlags=0x10800000;end</string>
+<!-- AllApps/Customize/AppsCustomize -->
+    <!-- The alpha of the AppsCustomize bg in spring loaded mode -->
+    <integer name="config_workspaceScrimAlpha">55</integer>
+    <integer name="config_workspaceUnshrinkTime">300</integer>
+    <integer name="config_overviewTransitionTime">250</integer>
 
-    <!-- String representing the fragment class for settings activity.-->
-    <string name="settings_fragment_name" translatable="false">com.android.launcher3.settings.SettingsActivity$LauncherSettingsFragment</string>
-
-    <!-- DragController -->
-    <item type="id" name="drag_event_parity" />
-
-    <!-- AllApps & Launcher transitions -->
     <!-- Out of 100, the percent to shrink the workspace during spring loaded mode. -->
-    <integer name="config_workspaceSpringLoadShrinkPercentage">85</integer>
+    <integer name="config_workspaceSpringLoadShrinkPercentage">80</integer>
+    <!-- Out of 100, the percent to shrink the workspace during overview mode. -->
+    <integer name="config_workspaceOverviewShrinkPercentage">90</integer>
 
-    <!-- The duration of the animation from search hint to text entry -->
-    <integer name="config_searchHintAnimationDuration">50</integer>
+    <!-- Fade/zoom in/out duration & scale in the AllApps transition.
+         Note: This should be less than the workspaceShrinkTime as they happen together. -->
+    <integer name="config_appsCustomizeRevealTime">220</integer>
+    <integer name="config_appsCustomizeZoomInTime">350</integer>
+    <integer name="config_appsCustomizeZoomOutTime">600</integer>
+    <integer name="config_appsCustomizeZoomScaleFactor">7</integer>
+    <integer name="config_appsCustomizeFadeInTime">250</integer>
+    <integer name="config_appsCustomizeFadeOutTime">200</integer>
+    <integer name="config_appsCustomizeWorkspaceShrinkTime">300</integer>
 
-    <!-- View tag key used to store SpringAnimation data. -->
-    <item type="id" name="spring_animation_tag" />
+    <integer name="config_appsCustomizeConcealTime">250</integer>
+    <integer name="config_appsCustomizeItemsAlphaStagger">60</integer>
 
-    <!-- View tag key used to determine if we should fade in the child views.. -->
-    <string name="popup_container_iterate_children" translatable="false">popup_container_iterate_children</string>
+    <!-- This constant stores the ratio of the all apps button drawable which
+         is used for internal (baked-in) padding -->
+    <integer name="config_allAppsButtonPaddingPercent">17</integer>
 
-    <!-- config used to determine if header protection is supported in AllApps -->
-    <bool name="config_header_protection_supported">false</bool>
+    <integer name="config_workspaceDefaultScreen">0</integer>
 
-    <!-- Workspace -->
+    <!-- Tab transition animation duration -->
+    <integer name="config_tabTransitionDuration">250</integer>
+
+    <!-- The slope, in percent, of the drag movement needed to drag an item out of
+         AppsCustomize (y / x * 100%)  -->
+    <integer name="config_appsCustomizeDragSlopeThreshold">150</integer>
+
+<!-- Workspace -->
+    <!-- Whether or not the drop targets drop down as opposed to fade in -->
+    <bool name="config_useDropTargetDownTransition">false</bool>
+    <!-- Whether or not to fade the side pages -->
+    <bool name="config_workspaceFadeAdjacentScreens">false</bool>
+    <!-- Whether to show outlines on the screens when scrolling -->
+    <bool name="config_workspaceDefaultShowOutlines">false</bool>
+
+    <!-- The transition duration for the background of the drop targets -->
+    <integer name="config_dropTargetBgTransitionDuration">0</integer>
+
     <!-- The duration (in ms) of the fade animation on the object outlines, used when
          we are dragging objects around on the home screen. -->
-    <integer name="config_dragOutlineFadeTime">500</integer>
+    <integer name="config_dragOutlineFadeTime">900</integer>
 
     <!-- The alpha value at which to show the most recent drop visualization outline. -->
-    <integer name="config_dragOutlineMaxAlpha">255</integer>
+    <integer name="config_dragOutlineMaxAlpha">128</integer>
 
     <!-- Parameters controlling the animation for when an item is dropped on the home screen,
          and it animates from its old position to the new one. -->
@@ -52,132 +86,43 @@
     <integer name="config_dropAnimMaxDuration">500</integer>
 
     <!-- The duration of the UserFolder opening and closing animation -->
+    <integer name="config_folderExpandDuration">120</integer>
     <integer name="config_materialFolderExpandDuration">200</integer>
-    <integer name="config_folderDelay">30</integer>
+    <integer name="config_materialFolderExpandStagger">60</integer>
 
     <!-- The distance at which the animation should take the max duration -->
     <integer name="config_dropAnimMaxDist">800</integer>
 
-    <!-- The duration of the caret animation -->
-    <integer name="config_caretAnimationDuration">200</integer>
+    <!-- Properties controlling the workspace fade-out during dragging -->
+    <integer name="config_dragFadeOutAlpha">80</integer>
+    <integer name="config_dragFadeOutDuration">250</integer>
 
-    <!-- Various classes overriden by projects/build flavors. -->
-    <string name="folder_name_provider_class" translatable="false"></string>
-    <string name="stats_log_manager_class" translatable="false"></string>
-    <string name="instant_app_resolver_class" translatable="false"></string>
-    <string name="main_process_initializer_class" translatable="false"></string>
-    <string name="app_launch_tracker_class" translatable="false"></string>
-    <string name="test_information_handler_class" translatable="false"></string>
-    <string name="launcher_activity_logic_class" translatable="false"></string>
-    <string name="model_delegate_class" translatable="false"></string>
+    <!-- Camera distance for the overscroll effect -->
+    <integer name="config_cameraDistance">8000</integer>
 
-    <!-- View ID to use for QSB widget -->
-    <item type="id" name="qsb_widget" />
+    <!-- Memory debugging, including a memory dump icon -->
+    <bool name="debug_memory_enabled">false</bool>
 
-    <!-- View ID used by cell layout to jail its content -->
-    <item type="id" name="cell_layout_jail_id" />
+    <!-- Name of a subclass of com.android.launcher3.AppFilter used to
+         filter the activities shown in the launcher. Can be empty. -->
+    <string name="app_filter_class" translatable="false"></string>
 
-    <!-- View IDs to store item highlight information -->
-    <item type="id" name="view_unhighlight_background" />
+    <!-- Name of a subclass of com.android.launcher3.BuildInfo used to
+         get build information. Can be empty. -->
+    <string name="build_info_class" translatable="false"></string>
 
-    <!-- view ID used to restore work tab state -->
-    <item type="id" name="work_tab_state_id" />
+<!-- Hotseat -->
+    <bool name="hotseat_transpose_layout_with_orientation">true</bool>
+    <integer name="hotseat_cell_count">5</integer>
+    <integer name="hotseat_all_apps_index">2</integer>
+    <!-- must be between 0 and 100 -->
+    <integer name="hotseat_item_scale_percentage">100</integer>
 
-    <!-- Menu id for feature flags -->
-    <item type="id" name="menu_apply_flags" />
+    <bool name="config_launcher_page">false</bool>
 
-    <!-- Default packages -->
-    <string name="wallpaper_picker_package" translatable="false"></string>
-    <string name="local_colors_extraction_class" translatable="false"></string>
-
-    <!-- Accessibility actions -->
-    <item type="id" name="action_remove" />
-    <item type="id" name="action_uninstall" />
-    <item type="id" name="action_reconfigure" />
-    <item type="id" name="action_add_to_workspace" />
-    <item type="id" name="action_move" />
-    <item type="id" name="action_move_to_workspace" />
-    <item type="id" name="action_move_screen_backwards" />
-    <item type="id" name="action_move_screen_forwards" />
-    <item type="id" name="action_resize" />
-    <item type="id" name="action_deep_shortcuts" />
-    <item type="id" name="action_shortcuts_and_notifications"/>
-    <item type="id" name="action_dismiss_notification" />
-    <item type="id" name="action_remote_action_shortcut" />
-    <item type="id" name="action_dismiss_prediction" />
-    <item type="id" name="action_pin_prediction"/>
-
-    <!-- QSB IDs. DO not change -->
-    <item type="id" name="search_container_workspace" />
-    <item type="id" name="search_container_all_apps" />
-    <item type="id" name="search_container_hotseat" />
-
-    <!-- Recents -->
-    <item type="id" name="overview_panel"/>
-
-    <!-- Whether to enable background preloading of task thumbnails. -->
-    <bool name="config_enableTaskSnapshotPreloading">true</bool>
-
-    <!-- Configuration resources -->
-    <item name="all_apps_spring_damping_ratio" type="dimen" format="float">0.75</item>
-    <item name="all_apps_spring_stiffness" type="dimen" format="float">600</item>
-
-    <item name="dismiss_task_trans_y_damping_ratio" type="dimen" format="float">0.73</item>
-    <item name="dismiss_task_trans_y_stiffness" type="dimen" format="float">800</item>
-
-    <item name="dismiss_task_trans_x_damping_ratio" type="dimen" format="float">0.73</item>
-    <item name="dismiss_task_trans_x_stiffness" type="dimen" format="float">800</item>
-
-    <item name="horizontal_spring_damping_ratio" type="dimen" format="float">0.8</item>
-    <item name="horizontal_spring_stiffness" type="dimen" format="float">250</item>
-
-    <item name="swipe_up_rect_scale_damping_ratio" type="dimen" format="float">0.75</item>
-    <item name="swipe_up_rect_scale_stiffness" type="dimen" format="float">200</item>
-
-    <item name="swipe_up_rect_xy_fling_friction" type="dimen" format="float">1.5</item>
-
-    <item name="swipe_up_scale_start"  type="dimen" format="float">0.88</item>
-
-    <item name="swipe_up_trans_y_dp"  type="dimen" format="float">4.5</item>
-    <item name="swipe_up_trans_y_dp_per_s" type="dimen" format="float">3</item>
-
-    <item name="swipe_up_trans_y_damping" type="dimen" format="float">0.45</item>
-    <item name="swipe_up_trans_y_stiffness" type="dimen" format="float">200</item>
-
-    <item name="swipe_up_rect_xy_damping_ratio" type="dimen" format="float">0.8</item>
-    <item name="swipe_up_rect_xy_stiffness" type="dimen" format="float">200</item>
-
-    <item name="swipe_up_low_swipe_duration_multiplier"  type="dimen" format="float">1</item>
-
-    <item name="swipe_up_launcher_alpha_max_progress" type="dimen" format="float">0.85</item>
-
-    <item name="staggered_damping_ratio" type="dimen" format="float">0.7</item>
-    <item name="staggered_stiffness" type="dimen" format="float">150</item>
-    <dimen name="unlock_staggered_velocity_dp_per_s">2dp</dimen>
-
-    <item name="hint_scale_damping_ratio" type="dimen" format="float">0.7</item>
-    <item name="hint_scale_stiffness" type="dimen" format="float">200</item>
-    <dimen name="hint_scale_velocity_dp_per_s">0.3dp</dimen>
-
-    <!-- Swipe up to home related -->
-    <dimen name="swipe_up_fling_min_visible_change">18dp</dimen>
-    <dimen name="swipe_up_max_workspace_trans_y">-60dp</dimen>
-    <dimen name="swipe_up_max_velocity">7.619dp</dimen>
-
-    <array name="dynamic_resources">
-        <item>@dimen/swipe_up_scale_start</item>
-        <item>@dimen/swipe_up_trans_y_dp</item>
-        <item>@dimen/swipe_up_trans_y_dp_per_s</item>
-        <item>@dimen/swipe_up_trans_y_damping</item>
-        <item>@dimen/swipe_up_trans_y_stiffness</item>
-        <item>@dimen/swipe_up_launcher_alpha_max_progress</item>
-        <item>@dimen/swipe_up_low_swipe_duration_multiplier</item>
-        <item>@dimen/swipe_up_max_velocity</item>
-    </array>
-
-    <string-array name="filtered_components" ></string-array>
-
-    <!-- Name of the class used to generate colors from the wallpaper colors. Must be implementing the LauncherAppWidgetHostView.ColorGenerator interface. -->
-    <string name="color_generator_class" translatable="false"/>
-
+    <bool name="config_launcher_shortcut">false</bool>
+    <bool name="config_launcher_show_unread_number">true</bool>
+    <bool name="config_launcher_show_backup_shortcut">false</bool>
+    <bool name="config_mmx_enabled">false</bool>
+    <bool name="config_srf_enabled">false</bool>
 </resources>

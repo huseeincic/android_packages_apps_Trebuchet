@@ -17,128 +17,76 @@
 LOCAL_PATH := $(call my-dir)
 
 #
-# Build rule for Launcher3 Go app for Android Go devices.
+# Build app code.
 #
 include $(CLEAR_VARS)
-LOCAL_USE_AAPT2 := true
+
 LOCAL_MODULE_TAGS := optional
-LOCAL_STATIC_ANDROID_LIBRARIES := Launcher3CommonDepsLib
 
-LOCAL_SRC_FILES := \
-    $(call all-java-files-under, src) \
-    $(call all-java-files-under, src_ui_overrides) \
-    $(call all-java-files-under, go/src)
+LOCAL_STATIC_JAVA_LIBRARIES := android-support-v13
 
-LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/go/res
+LOCAL_SRC_FILES := $(call all-java-files-under, src) \
+    $(call all-java-files-under, WallpaperPicker/src) \
+    $(call all-renderscript-files-under, src) \
+    $(call all-proto-files-under, protos)
+LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/WallpaperPicker/res $(LOCAL_PATH)/res
+
+LOCAL_AAPT_FLAGS := --auto-add-overlay
+
+LOCAL_PROTOC_OPTIMIZE_TYPE := nano
+LOCAL_PROTOC_FLAGS := --proto_path=$(LOCAL_PATH)/protos/
+
+# LOCAL_SDK_VERSION := 21
+
+LOCAL_PACKAGE_NAME := Trebuchet
+LOCAL_PRIVILEGED_MODULE := true
+#LOCAL_CERTIFICATE := shared
+
+LOCAL_AAPT_FLAGS += --rename-manifest-package com.cyanogenmod.trebuchet
+
+LOCAL_OVERRIDES_PACKAGES := Launcher3
 
 LOCAL_PROGUARD_FLAG_FILES := proguard.flags
-
-LOCAL_SDK_VERSION := current
-LOCAL_MIN_SDK_VERSION := 26
-LOCAL_PACKAGE_NAME := TrebuchetGo
-LOCAL_PRIVILEGED_MODULE := true
-LOCAL_SYSTEM_EXT_MODULE := true
-LOCAL_OVERRIDES_PACKAGES := Home Launcher2 Launcher3 Launcher3QuickStep Launcher3Go
-LOCAL_REQUIRED_MODULES := privapp_whitelist_com.android.launcher3
-
-LOCAL_FULL_LIBS_MANIFEST_FILES := \
-    $(LOCAL_PATH)/AndroidManifest.xml \
-    $(LOCAL_PATH)/AndroidManifest-common.xml
-
-LOCAL_MANIFEST_FILE := go/AndroidManifest.xml
-LOCAL_JACK_COVERAGE_INCLUDE_FILTER := com.android.launcher3.*
-LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0
-LOCAL_LICENSE_CONDITIONS := notice
-LOCAL_NOTICE_FILE := $(LOCAL_PATH)/NOTICE
-include $(BUILD_PACKAGE)
-
-#
-# Build rule for Quickstep app.
-#
-include $(CLEAR_VARS)
-LOCAL_USE_AAPT2 := true
-LOCAL_MODULE_TAGS := optional
-
-LOCAL_STATIC_ANDROID_LIBRARIES := Launcher3QuickStepLib
 LOCAL_PROGUARD_ENABLED := disabled
 
-ifneq (,$(wildcard frameworks/base))
-  LOCAL_PRIVATE_PLATFORM_APIS := true
-else
-  LOCAL_SDK_VERSION := system_current
-  LOCAL_MIN_SDK_VERSION := 26
-endif
-LOCAL_PACKAGE_NAME := TrebuchetQuickStep
-LOCAL_PRIVILEGED_MODULE := true
-LOCAL_SYSTEM_EXT_MODULE := true
-LOCAL_OVERRIDES_PACKAGES := Home Launcher2 Launcher3 Launcher3QuickStep
-LOCAL_REQUIRED_MODULES := privapp_whitelist_com.android.launcher3
-
-LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/quickstep/res
-
-LOCAL_FULL_LIBS_MANIFEST_FILES := \
-    $(LOCAL_PATH)/quickstep/AndroidManifest-launcher.xml \
-    $(LOCAL_PATH)/AndroidManifest-common.xml
-
-LOCAL_MANIFEST_FILE := quickstep/AndroidManifest.xml
-LOCAL_JACK_COVERAGE_INCLUDE_FILTER := com.android.launcher3.*
-
-LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0
-LOCAL_LICENSE_CONDITIONS := notice
-LOCAL_NOTICE_FILE := $(LOCAL_PATH)/NOTICE
 include $(BUILD_PACKAGE)
 
+include $(call all-makefiles-under,$(LOCAL_PATH))
 
 #
-# Build rule for Launcher3 Go app with quickstep for Android Go devices.
+# Protocol Buffer Debug Utility in Java
 #
 include $(CLEAR_VARS)
-LOCAL_USE_AAPT2 := true
+
+LOCAL_SRC_FILES := $(call all-java-files-under, util) \
+    $(call all-proto-files-under, protos)
+
+LOCAL_PROTOC_OPTIMIZE_TYPE := nano
+LOCAL_PROTOC_FLAGS := --proto_path=$(LOCAL_PATH)/protos/
+
 LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE := launcher_protoutil_lib
+LOCAL_IS_HOST_MODULE := true
+LOCAL_JAR_MANIFEST := util/etc/manifest.txt
+LOCAL_STATIC_JAVA_LIBRARIES := host-libprotobuf-java-2.3.0-nano
 
-LOCAL_STATIC_JAVA_LIBRARIES := \
-    SystemUI-statsd \
-    SystemUISharedLib
-ifneq (,$(wildcard frameworks/base))
-  LOCAL_PRIVATE_PLATFORM_APIS := true
-else
-  LOCAL_SDK_VERSION := system_current
-  LOCAL_MIN_SDK_VERSION := 26
-endif
-LOCAL_STATIC_ANDROID_LIBRARIES := LauncherGoResLib
+include $(BUILD_HOST_JAVA_LIBRARY)
 
-LOCAL_SRC_FILES := \
-    $(call all-java-files-under, src) \
-    $(call all-java-files-under, quickstep/src) \
-    $(call all-java-files-under, go/src) \
-    $(call all-java-files-under, go/quickstep/src)
+#
+# Protocol Buffer Debug Utility Wrapper Script
+#
+include $(CLEAR_VARS)
+LOCAL_IS_HOST_MODULE := true
+LOCAL_MODULE_CLASS := EXECUTABLES
+LOCAL_MODULE_TAGS := optional
+LOCAL_MODULE := launcher_protoutil
 
-LOCAL_RESOURCE_DIR := \
-    $(LOCAL_PATH)/go/quickstep/res \
-    $(LOCAL_PATH)/go/res \
-    $(LOCAL_PATH)/quickstep/res
+include $(BUILD_SYSTEM)/base_rules.mk
 
-LOCAL_PROGUARD_FLAG_FILES := proguard.flags
-LOCAL_PROGUARD_ENABLED := full
+$(LOCAL_BUILT_MODULE): launcher_protoutil_lib
+$(LOCAL_BUILT_MODULE): $(LOCAL_PATH)/util/etc/launcher_protoutil | $(ACP)
+	@echo "Copy: $(PRIVATE_MODULE) ($@)"
+	$(copy-file-to-new-target)
+	$(hide) chmod 755 $@
 
-LOCAL_PACKAGE_NAME := TrebuchetQuickStepGo
-LOCAL_PRIVILEGED_MODULE := true
-LOCAL_SYSTEM_EXT_MODULE := true
-LOCAL_OVERRIDES_PACKAGES := Home Launcher2 Launcher3 Launcher3QuickStep Launcher3QuickStepGo
-LOCAL_REQUIRED_MODULES := privapp_whitelist_com.android.launcher3
-
-LOCAL_FULL_LIBS_MANIFEST_FILES := \
-    $(LOCAL_PATH)/go/AndroidManifest.xml \
-    $(LOCAL_PATH)/go/AndroidManifest-launcher.xml \
-    $(LOCAL_PATH)/AndroidManifest-common.xml
-
-LOCAL_MANIFEST_FILE := quickstep/AndroidManifest.xml
-LOCAL_JACK_COVERAGE_INCLUDE_FILTER := com.android.launcher3.*
-LOCAL_LICENSE_KINDS := SPDX-license-identifier-Apache-2.0
-LOCAL_LICENSE_CONDITIONS := notice
-LOCAL_NOTICE_FILE := $(LOCAL_PATH)/NOTICE
-include $(BUILD_PACKAGE)
-
-
-# ==================================================
-include $(call all-makefiles-under,$(LOCAL_PATH))
+INTERNAL_DALVIK_MODULES += $(LOCAL_INSTALLED_MODULE)

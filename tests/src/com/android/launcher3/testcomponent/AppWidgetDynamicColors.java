@@ -14,12 +14,39 @@
  * limitations under the License.
  */
 
-package com.android.launcher3.testcomponent;
+package com.android.launcher3;
 
-import android.appwidget.AppWidgetProvider;
+import android.app.Application;
 
-/**
- * A simple app widget showing a primary, secondary and neutral color.
- */
-public class AppWidgetDynamicColors extends AppWidgetProvider {
+public class LauncherApplication extends Application {
+    public static boolean LAUNCHER_SHOW_UNREAD_NUMBER;
+    public static boolean LAUNCHER_SHORTCUT_ENABLED;
+    public static boolean SHOW_CTAPP_FEATURE;
+    public static boolean LAUNCHER_BACKUP_SHORTCUT_ENABLED;
+    public static boolean LAUNCHER_MMX_SHORTCUT_ENABLED;
+    public static boolean LAUNCHER_SFR_SHORTCUT_ENABLED;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        LAUNCHER_SHOW_UNREAD_NUMBER = getResources().getBoolean(
+                R.bool.config_launcher_show_unread_number);
+        LAUNCHER_SHORTCUT_ENABLED = getResources().getBoolean(
+                R.bool.config_launcher_shortcut);
+        SHOW_CTAPP_FEATURE = getResources().getBoolean(R.bool.config_launcher_page);
+        LAUNCHER_BACKUP_SHORTCUT_ENABLED =
+                getResources().getBoolean(R.bool.config_launcher_show_backup_shortcut);
+        LAUNCHER_MMX_SHORTCUT_ENABLED =
+                getResources().getBoolean(R.bool.config_mmx_enabled);
+        LAUNCHER_SFR_SHORTCUT_ENABLED =
+                getResources().getBoolean(R.bool.config_srf_enabled);
+        LauncherAppState.setApplicationContext(this);
+        LauncherAppState.getInstance();
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        LauncherAppState.getInstance().onTerminate();
+    }
 }
