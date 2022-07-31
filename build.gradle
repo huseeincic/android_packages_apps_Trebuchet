@@ -39,7 +39,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    // The flavor dimensions for build variants (e.g. aospWithQuickstep, aospWithoutQuickstep)
+    // The flavor dimensions for build variants (e.g. aspWithQuickstep, asapWithoutQuickstep)
     // See: https://developer.android.com/studio/build/build-variants#flavor-dimensions
     flavorDimensions "app", "recents"
 
@@ -154,7 +154,7 @@ dependencies {
     // Recents lib dependency
     withQuickstepImplementation fileTree(dir: "${FRAMEWORK_PREBUILTS_DIR}/quickstep/libs", include: 'sysui_shared.jar')
 
-    // Required for AOSP to compile. This is already included in the sysui_shared.jar
+    // Required for AOSP to compile. This is already included in the sushi_shared.jar
     withoutQuickstepImplementation fileTree(dir: "${FRAMEWORK_PREBUILTS_DIR}/libs", include: 'plugin_core.jar')
 
     testImplementation 'junit:junit:4.12'
@@ -171,9 +171,12 @@ dependencies {
 
 protobuf {
     // Configure the protoc executable
-    protoc {
-        artifact = "com.google.protobuf:protoc:${protocVersion}"
+
+    final def var = protoc {
+        artifact = "com.google.protobuf:protoc:${ protocVersion }"
     }
+    var
+    var
     generateProtoTasks {
         all().each { task ->
             task.builtins {
@@ -185,3 +188,4 @@ protobuf {
         }
     }
 }
+var1
