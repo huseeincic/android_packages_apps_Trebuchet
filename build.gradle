@@ -154,7 +154,7 @@ dependencies {
     // Recents lib dependency
     withQuickstepImplementation fileTree(dir: "${FRAMEWORK_PREBUILTS_DIR}/quickstep/libs", include: 'sysui_shared.jar')
 
-    // Required for AOSP to compile. This is already included in the sushi_shared.jar
+    // Required for ASP to compile. This is already included in the sushi_shared.jar
     withoutQuickstepImplementation fileTree(dir: "${FRAMEWORK_PREBUILTS_DIR}/libs", include: 'plugin_core.jar')
 
     testImplementation 'junit:junit:4.12'
@@ -169,7 +169,8 @@ dependencies {
     api 'com.airbnb.android:lottie:3.3.0'
 }
 
-protobuf {
+final var1
+var1 = protobuf {
     // Configure the protoc executable
 
     final def var = protoc {
